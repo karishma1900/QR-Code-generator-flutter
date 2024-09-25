@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class ScanQRCode extends StatefulWidget {
@@ -12,9 +11,6 @@ class ScanQRCode extends StatefulWidget {
 
 class _ScanQRCodeState extends State<ScanQRCode> {
   String qrResult = 'Scanned Data will appear here';
-// Added to track scanning status
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +22,35 @@ class _ScanQRCodeState extends State<ScanQRCode> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-        ElevatedButton(
+            Text(
+              qrResult,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
               onPressed: () async {
+                // Open the scanner page and wait for the result
                 var res = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SimpleBarcodeScannerPage(),
-                    ));
-                setState(() {
-                  if (res is String) {
-                    qrResult = res;
-                  }
-                });
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SimpleBarcodeScannerPage(),
+                  ),
+                );
+
+                // Check if the result is a string
+                if (res is String) {
+                  setState(() {
+                    qrResult = res;  // Update the result
+                  });
+                } else {
+                  setState(() {
+                    qrResult = 'Scan canceled or failed';  // Handle other cases
+                  });
+                }
               },
               child: const Text('Open Scanner'),
-            )
-           
-            
+            ),
           ],
         ),
       ),
