@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ElevatedButton(
             onPressed: (){
               setState(() {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SimpleBarcodeScannerPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ScanQRCode()));
                 
               });
             },child: Text('Scan Qr Code')),
